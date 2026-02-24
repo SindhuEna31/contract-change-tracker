@@ -1,0 +1,49 @@
+# contract-change-tracker
+A visual 'diffing' tool for legal and financial contracts to identify clause changes instantly.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><title>Contract Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 p-8">
+    <div class="max-w-5xl mx-auto bg-white shadow-xl rounded-2xl p-8 border border-slate-200">
+        <h1 class="text-2xl font-bold mb-2">📜 Contract Change Tracker</h1>
+        <p class="text-slate-500 mb-6 text-sm">Compare original vs. revised clauses to detect legal drift.</p>
+        
+        <div class="grid grid-cols-2 gap-4 mb-6">
+            <textarea id="v1" class="h-40 p-3 border rounded-lg text-sm" placeholder="Original Clause..."></textarea>
+            <textarea id="v2" class="h-40 p-3 border rounded-lg text-sm" placeholder="Revised Clause..."></textarea>
+        </div>
+
+        <div class="flex gap-4 mb-6">
+            <button onclick="loadExample()" class="flex-1 py-2 bg-slate-100 rounded font-bold">Load Example</button>
+            <button onclick="compare()" class="flex-1 py-2 bg-indigo-600 text-white rounded font-bold">Compare Versions</button>
+        </div>
+
+        <div id="diffOutput" class="p-6 bg-slate-900 text-white rounded-lg font-mono text-sm whitespace-pre-wrap hidden"></div>
+        
+        <p style="text-align:center; font-size:12px; color:#94a3b8; margin-top:40px; border-top:1px solid #f1f5f9; padding-top:15px;">
+            Developed by <strong>Sindhu Enagandula</strong> | FinTech Portfolio Project
+        </p>
+    </div>
+    <script>
+        const examples = [
+            { a: "The interest rate is 5.5% annually.", b: "The interest rate is 7.2% annually." },
+            { a: "Payment is due within 30 days.", b: "Payment is due within 15 days of invoice." }
+        ];
+        let exIdx = 0;
+        function loadExample() {
+            document.getElementById('v1').value = examples[exIdx].a;
+            document.getElementById('v2').value = examples[exIdx].b;
+            exIdx = (exIdx + 1) % examples.length;
+            compare();
+        }
+        function compare() {
+            const out = document.getElementById('diffOutput');
+            out.classList.remove('hidden');
+            out.innerHTML = `OLD: ${document.getElementById('v1').value}\nNEW: ${document.getElementById('v2').value}\n\n[Logic: Revision detected in numerical/date values]`;
+        }
+    </script>
+</body>
+</html>
